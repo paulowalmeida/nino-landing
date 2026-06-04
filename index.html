@@ -7,10 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FFFFFF;
+    --cream: #FFF9F3;
+    --cream-deep: #FCEFE2;
     --warm: #FF6B00;
+    --warm-light: #FF8A33;
+    --warm-deep: #E85A00;
     --dark: #1A1A2E;
-    --soft: #F1F3F5;
+    --soft: #FBF2E9;
     --accent: #FF6B00;
     --text: #2D2D2D;
   }
@@ -18,10 +21,22 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #FFFFFF;
+    background: var(--cream);
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--text);
     overflow-x: hidden;
+  }
+
+  /* Grão sutil global — atmosfera, não textura óbvia */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
   }
 
   /* NAV */
@@ -33,9 +48,9 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(255,255,255,0.97);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,107,0,0.1);
+    background: rgba(255,249,243,0.82);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border-bottom: 1px solid rgba(255,107,0,0.08);
   }
 
   .logo {
@@ -66,12 +81,13 @@
   .nav-links { display: flex; gap: 2rem; align-items: center; }
 
   .btn-nav {
-    background: var(--warm) !important;
+    background: linear-gradient(135deg, var(--warm-light), var(--warm)) !important;
     color: white !important;
     opacity: 1 !important;
     padding: 0.6rem 1.5rem;
     border-radius: 100px;
     font-weight: 600;
+    box-shadow: 0 6px 16px rgba(255,107,0,0.22);
     transition: transform 0.2s, box-shadow 0.2s !important;
   }
   .nav-links a.btn-nav { color: white !important; }
@@ -79,6 +95,32 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(255,107,0,0.3);
   }
+
+  /* atalho de acesso ao gestor — secundário (outline) ao lado do CTA */
+  .btn-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1.15rem;
+    border-radius: 100px;
+    border: 1.6px solid rgba(255,107,0,0.3);
+    color: var(--warm) !important;
+    font-weight: 600;
+    opacity: 1 !important;
+    transition: background 0.25s, color 0.25s, border-color 0.25s,
+      transform 0.2s, box-shadow 0.25s;
+  }
+  .nav-links a.btn-login { color: var(--warm) !important; }
+  .btn-login svg { width: 17px; height: 17px; transition: transform 0.25s; }
+  .btn-login:hover {
+    background: var(--warm);
+    border-color: var(--warm);
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(255,107,0,0.28);
+  }
+  .nav-links a.btn-login:hover { color: #fff !important; }
+  .btn-login:hover svg { transform: translateX(2px); }
 
   /* HERO */
   .hero {
@@ -90,6 +132,10 @@
     gap: 4rem;
     position: relative;
     overflow: hidden;
+    background:
+      radial-gradient(900px 520px at 88% -8%, rgba(255,138,51,0.22), transparent 58%),
+      radial-gradient(720px 600px at -8% 112%, rgba(255,107,0,0.10), transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
   }
 
   .hero::before {
@@ -158,20 +204,21 @@
   }
 
   .btn-primary {
-    background: var(--warm);
+    background: linear-gradient(135deg, var(--warm-light), var(--warm));
     color: white;
-    padding: 1rem 2rem;
+    padding: 1rem 2.1rem;
     border-radius: 100px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     border: none;
     cursor: pointer;
+    box-shadow: 0 10px 24px rgba(255,107,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25);
     transition: transform 0.2s, box-shadow 0.2s;
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
   .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(255,107,0,0.35);
+    box-shadow: 0 16px 36px rgba(255,107,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
   }
 
   .btn-secondary {
@@ -206,7 +253,8 @@
   .mascot-bg {
     position: absolute;
     inset: 0;
-    background: #F8F9FA;
+    background: radial-gradient(circle at 50% 38%, #FFFFFF 0%, var(--cream-deep) 70%, #F7E4D2 100%);
+    box-shadow: inset 0 -10px 40px rgba(255,107,0,0.06);
     border-radius: 40% 60% 55% 45% / 45% 45% 55% 55%;
     animation: morph 6s ease-in-out infinite;
   }
@@ -280,7 +328,7 @@
   /* FEATURES */
   .features {
     padding: 6rem 4rem;
-    background: #F1F3F5;
+    background: var(--soft);
     color: var(--text);
   }
 
@@ -310,14 +358,24 @@
 
   .feature-card {
     background: #FFFFFF;
-    border: 1px solid #DEE2E6;
-    border-radius: 20px;
+    border: 1px solid rgba(255,107,0,0.08);
+    border-radius: 22px;
     padding: 2rem;
-    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 4px 24px rgba(255,107,0,0.05), 0 1px 2px rgba(26,26,46,0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .feature-card:hover {
-    transform: translateY(-4px);
-    background: #fafafa;
+    transform: translateY(-6px);
+    box-shadow: 0 20px 44px rgba(255,107,0,0.14), 0 2px 6px rgba(26,26,46,0.04);
+  }
+  .feature-card .feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255,138,51,0.16), rgba(255,107,0,0.08));
   }
 
   .feature-icon {
@@ -636,6 +694,10 @@
     <a href="#como-funciona">Como funciona</a>
     <a href="#para-restaurantes">Para restaurantes</a>
     <a href="#precos">Preços</a>
+    <a href="https://gestor-dev.nino.delivery" class="btn-login">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Entrar
+    </a>
     <a href="#" onclick="openModal(); return false;" class="btn-nav">Tenho interesse</a>
   </div>
   <!-- Hamburger -->
@@ -651,6 +713,7 @@
   <a href="#demo" onclick="document.getElementById('mobile-menu').classList.remove('open'); document.querySelector('.hamburger').classList.remove('open')">Demonstração</a>
   <a href="#para-restaurantes" onclick="document.getElementById('mobile-menu').classList.remove('open'); document.querySelector('.hamburger').classList.remove('open')">Para restaurantes</a>
   <a href="#precos" onclick="document.getElementById('mobile-menu').classList.remove('open'); document.querySelector('.hamburger').classList.remove('open')">Preços</a>
+  <a href="https://gestor-dev.nino.delivery" style="color: var(--warm) !important; font-weight: 700;">Entrar no gestor →</a>
   <a href="#" onclick="openModal(); document.getElementById('mobile-menu').classList.remove('open'); return false;" style="color: var(--warm) !important;">Tenho interesse</a>
 </div>
 
